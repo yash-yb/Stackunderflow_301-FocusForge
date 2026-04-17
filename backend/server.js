@@ -4,7 +4,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const { registerUser, loginUser, updateUserName, findUserByEmail } = require('./auth');
+const { registerUser, loginUser, updateUserName, findUserByEmail, updateFocusTrend } = require('./auth');
 
 const app = express();
 app.use(cors());
@@ -40,6 +40,13 @@ app.get('/user/:email', (req, res) => {
   const user = findUserByEmail(email);
   if (!user) return res.status(404).json({ error: 'User not found' });
   res.json({ success: true, user });
+});
+
+app.post('/update-focus', (req, res) => {
+  const { email, minutes } = req.body;
+  const result = updateFocusTrend(email, minutes);
+  if (result.error) return res.status(400).json({ error: result.error });
+  res.json({ success: true, user: result.user });
 });
 
 const PORT = process.env.PORT || 4000;

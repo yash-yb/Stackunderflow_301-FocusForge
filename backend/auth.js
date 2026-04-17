@@ -90,4 +90,27 @@ function updateUserName(email, name) {
   return { success: true, user };
 }
 
-module.exports = { registerUser, loginUser, updateUserName, findUserByEmail, findUserByName };
+function updateFocusTrend(email, minutes) {
+  const users = loadUsers();
+  const user = users.find(u => u.email === email);
+  if (!user) return { error: 'User not found' };
+  
+  const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const today = days[new Date().getDay()];
+  
+  if (!user.focusTrend) {
+    user.focusTrend = days.map(d => ({ name: d, minutes: 0 }));
+  }
+  
+  const dayEntry = user.focusTrend.find(d => d.name === today);
+  if (dayEntry) {
+    dayEntry.minutes += minutes;
+  } else {
+    user.focusTrend.push({ name: today, minutes: minutes });
+  }
+  
+  saveUsers(users);
+  return { success: true, user };
+}
+
+module.exports = { registerUser, loginUser, updateUserName, findUserByEmail, findUserByName, updateFocusTrend };

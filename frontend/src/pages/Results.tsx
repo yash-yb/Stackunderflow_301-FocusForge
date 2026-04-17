@@ -11,6 +11,7 @@ import {
   saveState,
   xpForLevel,
 } from "@/lib/storage";
+import { recordFocusSession } from "@/services/auth";
 
 const Results = () => {
   const navigate = useNavigate();
@@ -68,6 +69,12 @@ const Results = () => {
     next = { ...next, streak: newStreak, lastSessionDate: today, achievements };
     saveState(next);
     setPost(next);
+
+    // Record focused minutes in backend
+    if (next.email && s.duration > 0) {
+      recordFocusSession(next.email, Math.round(s.duration))
+        .catch(err => console.error("Failed to record focus session:", err));
+    }
 
     confetti({
       particleCount: 80,

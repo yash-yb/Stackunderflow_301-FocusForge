@@ -36,3 +36,13 @@ export async function getUser(email: string) {
   if (!res.ok) throw new Error((await res.json()).error || 'Failed to fetch user');
   return res.json();
 }
+
+export async function recordFocusSession(email: string, minutes: number) {
+  const res = await fetch('http://localhost:4000/update-focus', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, minutes })
+  });
+  if (!res.ok) throw new Error((await res.json()).error || 'Failed to update focus trend');
+  return res.json();
+}

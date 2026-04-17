@@ -33,7 +33,7 @@
         },
         {
           "name": "Sun",
-          "minutes": 210
+          "minutes": 120
         }
       ]
     },
@@ -58,11 +58,11 @@
         },
         {
           "name": "Thu",
-          "minutes": 0
+          "minutes": 20
         },
         {
           "name": "Fri",
-          "minutes": 0
+          "minutes": 30
         },
         {
           "name": "Sat",
@@ -100,6 +100,80 @@
         {
           "name": "Fri",
           "minutes": 0
+        },
+        {
+          "name": "Sat",
+          "minutes": 0
+        },
+        {
+          "name": "Sun",
+          "minutes": 0
+        }
+      ]
+    },
+    {
+      "email": "qwerty@qwety.com",
+      "password": "123",
+      "name": "qwerty",
+      "level": 1,
+      "streak": 1,
+      "focusTrend": [
+        {
+          "name": "Mon",
+          "minutes": 0
+        },
+        {
+          "name": "Tue",
+          "minutes": 0
+        },
+        {
+          "name": "Wed",
+          "minutes": 0
+        },
+        {
+          "name": "Thu",
+          "minutes": 0
+        },
+        {
+          "name": "Fri",
+          "minutes": 1
+        },
+        {
+          "name": "Sat",
+          "minutes": 0
+        },
+        {
+          "name": "Sun",
+          "minutes": 0
+        }
+      ]
+    },
+    {
+      "email": "yash13@yash13.com",
+      "password": "123",
+      "name": "yash13",
+      "level": 1,
+      "streak": 1,
+      "focusTrend": [
+        {
+          "name": "Mon",
+          "minutes": 0
+        },
+        {
+          "name": "Tue",
+          "minutes": 0
+        },
+        {
+          "name": "Wed",
+          "minutes": 0
+        },
+        {
+          "name": "Thu",
+          "minutes": 0
+        },
+        {
+          "name": "Fri",
+          "minutes": 1
         },
         {
           "name": "Sat",
