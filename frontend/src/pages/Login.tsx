@@ -29,6 +29,7 @@ const Login = () => {
         name: res.user.name || "",
         level: res.user.level || 1,
         streak: res.user.streak || 1,
+        focusTrend: res.user.focusTrend || [],
         loggedIn: true
       });
       navigate("/dashboard");

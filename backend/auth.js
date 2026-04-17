@@ -23,11 +23,15 @@ function saveUsers(users) {
 
 
 function findUserByEmail(email) {
-  return loadUsers().find(u => u.email === email);
+  if (!email) return null;
+  const cleanEmail = email.trim().toLowerCase();
+  return loadUsers().find(u => u.email && u.email.trim().toLowerCase() === cleanEmail);
 }
 
 function findUserByName(name) {
-  return loadUsers().find(u => u.name && u.name.toLowerCase() === name.toLowerCase());
+  if (!name) return null;
+  const cleanName = name.trim().toLowerCase();
+  return loadUsers().find(u => u.name && u.name.trim().toLowerCase() === cleanName);
 }
 
 
@@ -35,7 +39,22 @@ function registerUser({ email, password, name }) {
   const users = loadUsers();
   if (users.find(u => u.email === email)) return { error: 'User already exists' };
   if (name && users.find(u => u.name && u.name.toLowerCase() === name.toLowerCase())) return { error: 'Name already taken' };
-  const user = { email, password, name: name || null, level: 1, streak: 1 };
+  const user = { 
+    email, 
+    password, 
+    name: name || null, 
+    level: 1, 
+    streak: 1,
+    focusTrend: [
+      { name: "Mon", minutes: 0 },
+      { name: "Tue", minutes: 0 },
+      { name: "Wed", minutes: 0 },
+      { name: "Thu", minutes: 0 },
+      { name: "Fri", minutes: 0 },
+      { name: "Sat", minutes: 0 },
+      { name: "Sun", minutes: 0 }
+    ]
+  };
   users.push(user);
   saveUsers(users);
   return { success: true, user };
@@ -43,9 +62,21 @@ function registerUser({ email, password, name }) {
 
 
 function loginUser({ name, password }) {
-  const user = findUserByName(name);
-  if (!user) return { error: 'User not found' };
-  if (user.password !== password) return { error: 'Incorrect password' };
+  console.log(`Login attempt for: ${name}`);
+  // Allow login by either name or email
+  const user = findUserByName(name) || findUserByEmail(name);
+  
+  if (!user) {
+    console.log(`User not found: ${name}`);
+    return { error: 'User not found' };
+  }
+  
+  if (user.password !== password) {
+    console.log(`Incorrect password for: ${name}`);
+    return { error: 'Incorrect password' };
+  }
+  
+  console.log(`Login successful: ${name}`);
   // Always return the current level and streak (default 1 if missing)
   return { success: true, user: { ...user, level: user.level || 1, streak: user.streak || 1 } };
 }

@@ -17,6 +17,7 @@ export interface FocusState {
   lastSessionDate?: string;
   lastSessionTasksCompleted?: number;
   achievements?: string[];
+  focusTrend?: { name: string; minutes: number }[];
 }
 
 const KEY = "focusforge-state";
@@ -31,6 +32,7 @@ export const defaultState: FocusState = {
   duration: 25,
   tasks: [],
   achievements: [],
+  focusTrend: [],
 };
 
 export const TASK_XP = 20;

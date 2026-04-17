@@ -30,3 +30,9 @@ export async function updateName(email: string, name: string) {
   if (!res.ok) throw new Error((await res.json()).error || 'Update failed');
   return res.json();
 }
+
+export async function getUser(email: string) {
+  const res = await fetch(`http://localhost:4000/user/${email}`);
+  if (!res.ok) throw new Error((await res.json()).error || 'Failed to fetch user');
+  return res.json();
+}

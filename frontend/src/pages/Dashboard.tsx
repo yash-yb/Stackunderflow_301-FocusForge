@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { Owl } from "@/components/Owl";
 import { Clouds } from "@/components/Clouds";
 import {
@@ -13,12 +14,23 @@ import {
   saveState,
   xpForLevel,
 } from "@/lib/storage";
+import { getUser } from "@/services/auth";
 
 const ACHIEVEMENTS = [
   { title: "First Spark", desc: "Complete your first session" },
   { title: "Consistent", desc: "Reach a 3-day streak" },
   { title: "Deep Work", desc: "Finish a 60-min session" },
   { title: "Focus Master", desc: "Reach Level 10" },
+];
+
+const FOCUS_TREND_DATA_DEFAULT = [
+  { name: "Mon", minutes: 0 },
+  { name: "Tue", minutes: 0 },
+  { name: "Wed", minutes: 0 },
+  { name: "Thu", minutes: 0 },
+  { name: "Fri", minutes: 0 },
+  { name: "Sat", minutes: 0 },
+  { name: "Sun", minutes: 0 },
 ];
 
 const Dashboard = () => {
@@ -36,6 +48,25 @@ const Dashboard = () => {
     }
     setState(s);
     setDurationInput(String(s.duration));
+
+    // Sync with backend to get latest data (like focusTrend)
+    if (s.email) {
+      getUser(s.email)
+        .then((res) => {
+          if (res.user) {
+            const updated = {
+              ...s,
+              name: res.user.name || s.name,
+              level: res.user.level || s.level,
+              streak: res.user.streak || s.streak,
+              focusTrend: res.user.focusTrend || s.focusTrend,
+            };
+            setState(updated);
+            saveState(updated);
+          }
+        })
+        .catch((err) => console.error("Sync error:", err));
+    }
   }, [navigate]);
 
   const update = (patch: Partial<FocusState>) => {
@@ -150,8 +181,47 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {/* Tasks */}
+        {/* Duration */}
         <section className="mb-8 fade-in-up" style={{ animationDelay: "0.1s" }}>
+          <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">
+            Session Duration
+          </h3>
+          <div className="glass-card p-5 flex items-center gap-3">
+            <input
+              type="number"
+              min={1}
+              max={240}
+              value={durationInput}
+              onChange={(e) => setDurationInput(e.target.value)}
+              onBlur={commitDuration}
+              className="input-field w-32 tabular-nums"
+            />
+            <span className="text-sm text-muted-foreground">minutes (1–240)</span>
+          </div>
+        </section>
+
+        {/* Focus Trend */}
+        <section className="mb-8 fade-in-up" style={{ animationDelay: "0.12s" }}>
+          <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">
+            Focus Trend
+          </h3>
+          <div className="glass-card p-5 h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={state.focusTrend && state.focusTrend.length > 0 ? state.focusTrend : FOCUS_TREND_DATA_DEFAULT} margin={{ top: 5, right: 5, bottom: 5, left: -20 }}>
+                <XAxis dataKey="name" stroke="#888888" fontSize={12} tickLine={false} axisLine={false} />
+                <YAxis stroke="#888888" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}m`} />
+                <Tooltip 
+                  contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }}
+                  itemStyle={{ color: '#4ade80' }}
+                />
+                <Line type="monotone" dataKey="minutes" stroke="#4ade80" strokeWidth={3} dot={{ r: 4, fill: '#4ade80' }} activeDot={{ r: 6 }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </section>
+
+        {/* Tasks */}
+        <section className="mb-8 fade-in-up" style={{ animationDelay: "0.15s" }}>
           <div className="flex items-end justify-between mb-3">
             <div>
               <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground">
@@ -225,25 +295,6 @@ const Dashboard = () => {
                 ))}
               </ul>
             )}
-          </div>
-        </section>
-
-        {/* Duration */}
-        <section className="mb-8 fade-in-up" style={{ animationDelay: "0.15s" }}>
-          <h3 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-3">
-            Session Duration
-          </h3>
-          <div className="glass-card p-5 flex items-center gap-3">
-            <input
-              type="number"
-              min={1}
-              max={240}
-              value={durationInput}
-              onChange={(e) => setDurationInput(e.target.value)}
-              onBlur={commitDuration}
-              className="input-field w-32 tabular-nums"
-            />
-            <span className="text-sm text-muted-foreground">minutes (1–240)</span>
           </div>
         </section>
 

@@ -4,15 +4,112 @@
       "email": "admin123@gmail.com",
       "password": "admin123",
       "name": "Ritesh",
-      "level": 1,
-      "streak": 1
+      "level": 5,
+      "streak": 12,
+      "focusTrend": [
+        {
+          "name": "Mon",
+          "minutes": 45
+        },
+        {
+          "name": "Tue",
+          "minutes": 120
+        },
+        {
+          "name": "Wed",
+          "minutes": 80
+        },
+        {
+          "name": "Thu",
+          "minutes": 150
+        },
+        {
+          "name": "Fri",
+          "minutes": 90
+        },
+        {
+          "name": "Sat",
+          "minutes": 180
+        },
+        {
+          "name": "Sun",
+          "minutes": 210
+        }
+      ]
     },
     {
-      "email": "arya@gmail.com",
-      "password": "admin123",
-      "name": "arya",
+      "email": "yash@yash.com",
+      "password": "123",
+      "name": "yash",
       "level": 1,
-      "streak": 1
+      "streak": 1,
+      "focusTrend": [
+        {
+          "name": "Mon",
+          "minutes": 10
+        },
+        {
+          "name": "Tue",
+          "minutes": 0
+        },
+        {
+          "name": "Wed",
+          "minutes": 20
+        },
+        {
+          "name": "Thu",
+          "minutes": 0
+        },
+        {
+          "name": "Fri",
+          "minutes": 0
+        },
+        {
+          "name": "Sat",
+          "minutes": 40
+        },
+        {
+          "name": "Sun",
+          "minutes": 0
+        }
+      ]
+    },
+    {
+      "email": "hello@hello.com",
+      "password": "hello",
+      "name": "hello",
+      "level": 1,
+      "streak": 1,
+      "focusTrend": [
+        {
+          "name": "Mon",
+          "minutes": 0
+        },
+        {
+          "name": "Tue",
+          "minutes": 0
+        },
+        {
+          "name": "Wed",
+          "minutes": 0
+        },
+        {
+          "name": "Thu",
+          "minutes": 0
+        },
+        {
+          "name": "Fri",
+          "minutes": 0
+        },
+        {
+          "name": "Sat",
+          "minutes": 0
+        },
+        {
+          "name": "Sun",
+          "minutes": 0
+        }
+      ]
     }
   ]
 }
