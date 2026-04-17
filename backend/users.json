@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "email": "admin123@gmail.com",
+      "password": "admin123",
+      "name": "Ritesh",
+      "level": 1,
+      "streak": 1
+    },
+    {
+      "email": "arya@gmail.com",
+      "password": "admin123",
+      "name": "arya",
+      "level": 1,
+      "streak": 1
+    }
+  ]
+}
